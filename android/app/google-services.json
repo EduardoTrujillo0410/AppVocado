@@ -1,0 +1,154 @@
+{
+  "project_info": {
+    "project_number": "9259485102",
+    "project_id": "appvocado-901b1",
+    "storage_bucket": "appvocado-901b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9259485102:android:aad03ab9151066ffb42a3f",
+        "android_client_info": {
+          "package_name": "com.appvocado.appvocado"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9259485102-hd53ijnls0dn076t7k9fn62u78f6sm6o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKca4gwbDs3Es3xblv-T8LvY-SlE0awPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9259485102-hd53ijnls0dn076t7k9fn62u78f6sm6o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "9259485102-7enkbusdtq2dh43r9ot796eugbc84h4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.appvocado.firebase.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9259485102:android:6a4bcea70a71f50ab42a3f",
+        "android_client_info": {
+          "package_name": "com.appvocado.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9259485102-hd53ijnls0dn076t7k9fn62u78f6sm6o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKca4gwbDs3Es3xblv-T8LvY-SlE0awPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9259485102-hd53ijnls0dn076t7k9fn62u78f6sm6o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "9259485102-7enkbusdtq2dh43r9ot796eugbc84h4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.appvocado.firebase.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9259485102:android:310270d87d45f512b42a3f",
+        "android_client_info": {
+          "package_name": "com.domain.appvocado"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9259485102-hd53ijnls0dn076t7k9fn62u78f6sm6o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKca4gwbDs3Es3xblv-T8LvY-SlE0awPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9259485102-hd53ijnls0dn076t7k9fn62u78f6sm6o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "9259485102-7enkbusdtq2dh43r9ot796eugbc84h4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.appvocado.firebase.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9259485102:android:e9730b8156c3ca75b42a3f",
+        "android_client_info": {
+          "package_name": "com.example.appvocado"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9259485102-hd53ijnls0dn076t7k9fn62u78f6sm6o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKca4gwbDs3Es3xblv-T8LvY-SlE0awPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9259485102-hd53ijnls0dn076t7k9fn62u78f6sm6o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "9259485102-7enkbusdtq2dh43r9ot796eugbc84h4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.appvocado.firebase.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
