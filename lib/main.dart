@@ -1,3 +1,4 @@
+import 'package:appvocado/pages/auth_page.dart';
 import 'package:flutter/material.dart';
 
 //importaciones del firebase//
@@ -17,16 +18,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Material App Bar'),
-        ),
-        body: const Center(
-          child: Text('Hello'),
-        ),
-      ),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: AuthPage(),
     );
   }
 }
