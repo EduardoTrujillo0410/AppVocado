@@ -1,6 +1,7 @@
 import 'package:appvocado/components/my_button.dart';
 import 'package:appvocado/components/my_textfield.dart';
 import 'package:appvocado/components/square_tile.dart';
+import 'package:appvocado/pages/login_or_register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -36,37 +37,46 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  //metodo de registro
   void signUserUp() async {
     //mostrar circulo de carga
     showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
-
-    //resgistro de usuario con auth firebase
+      context: context,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    //asegurar que las contraseñas coincidan
+    if (passwordController.text != confirmPasswordController.text) {
+      //pop loading circle
+      Navigator.pop(context);
+      //mostrar error al usuario
+      displayMessage("las contraseñas no coinciden");
+      return;
+    }
 
     try {
-      //chequeamos que la contraseña sea confirmada
-      if (passwordController.text == confirmPasswordController.text) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-      } else {
-        showErrorMessage('las contraseñas no coinciden');
-      }
-      //cerrar el circulo de carga
-      Navigator.pop(context);
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+
+      if (context.mounted) Navigator.pop(context);
+      displayMessage("Registro exitoso");
     } on FirebaseAuthException catch (e) {
-      //cerrar el circulo de carga
+      //pop loading circle
       Navigator.pop(context);
-      //mensaje de error
-      showErrorMessage(e.code);
+      //mostrar error al usuario
+      displayMessage(e.code);
     }
+  }
+
+  void displayMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(message),
+      ),
+    );
   }
 
   @override
@@ -94,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     //logo
                     const Icon(
-                      Icons.account_box_sharp,
+                      Icons.account_circle_outlined,
                       size: 100,
                       color: Colors.white,
                     ),

@@ -1,6 +1,7 @@
 import 'package:appvocado/components/my_button.dart';
 import 'package:appvocado/components/my_textfield.dart';
 import 'package:appvocado/components/square_tile.dart';
+import 'package:appvocado/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
