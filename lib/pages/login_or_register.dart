@@ -3,7 +3,9 @@ import 'package:appvocado/pages/register_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {
-  const LoginOrRegisterPage({super.key});
+  const LoginOrRegisterPage({
+    super.key,
+  });
 
   @override
   State<LoginOrRegisterPage> createState() => _LoginOrRegisterPageState();

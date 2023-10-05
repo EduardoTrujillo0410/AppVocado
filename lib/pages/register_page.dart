@@ -1,7 +1,6 @@
 import 'package:appvocado/components/my_button.dart';
 import 'package:appvocado/components/my_textfield.dart';
 import 'package:appvocado/components/square_tile.dart';
-import 'package:appvocado/pages/login_or_register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -25,11 +24,11 @@ class _RegisterPageState extends State<RegisterPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(255, 31, 71, 153),
+          backgroundColor: const Color.fromARGB(255, 31, 71, 153),
           title: Center(
             child: Text(
               message,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         );
@@ -61,9 +60,10 @@ class _RegisterPageState extends State<RegisterPage> {
       );
 
       if (context.mounted) Navigator.pop(context);
-      displayMessage("Registro exitoso");
+      //displayMessage("Registro exitoso");
     } on FirebaseAuthException catch (e) {
       //pop loading circle
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
       //mostrar error al usuario
       displayMessage(e.code);
@@ -82,7 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 174, 206, 175),
+      backgroundColor: const Color.fromARGB(255, 174, 206, 175),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(

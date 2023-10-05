@@ -116,6 +116,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "flutter_swiper_view",
+      "rootUri": "file:///Users/juanortiz/.pub-cache/hosted/pub.dev/flutter_swiper_view-1.1.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///Users/juanortiz/development/flutter/packages/flutter_test",
       "packageUri": "lib/",
@@ -242,7 +248,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-09-21T15:46:14.788552Z",
+  "generated": "2023-10-04T20:21:29.120766Z",
   "generator": "pub",
   "generatorVersion": "3.1.0"
 }

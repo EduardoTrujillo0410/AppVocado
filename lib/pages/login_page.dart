@@ -1,7 +1,6 @@
 import 'package:appvocado/components/my_button.dart';
 import 'package:appvocado/components/my_textfield.dart';
 import 'package:appvocado/components/square_tile.dart';
-import 'package:appvocado/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -24,11 +23,11 @@ class _LoginPageState extends State<LoginPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(255, 113, 119, 125),
+          backgroundColor: const Color.fromARGB(255, 113, 119, 125),
           title: Center(
             child: Text(
               message,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         );
@@ -171,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                                EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'o continua con',
                               style: TextStyle(
