@@ -10,8 +10,8 @@ class DetectarCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 9.0,
-      color: Color.fromARGB(255, 255, 255, 255),
-      shadowColor: Color.fromARGB(255, 255, 60, 0),
+      color: const Color.fromARGB(255, 231, 210, 140),
+      shadowColor: const Color.fromARGB(255, 255, 60, 0),
       shape:
           ContinuousRectangleBorder(borderRadius: BorderRadius.circular(35.0)),
       child: Column(
@@ -70,6 +70,7 @@ class HistorialCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 9.0,
+      color: Color.fromARGB(255, 231, 210, 140),
       shadowColor: Color.fromARGB(255, 255, 115, 0),
       shape:
           ContinuousRectangleBorder(borderRadius: BorderRadius.circular(35.0)),
@@ -129,6 +130,7 @@ class AcercaDeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 9.0,
+      color: Color.fromARGB(255, 231, 210, 140),
       shadowColor: const Color.fromARGB(255, 232, 56, 3),
       shape:
           ContinuousRectangleBorder(borderRadius: BorderRadius.circular(35.0)),

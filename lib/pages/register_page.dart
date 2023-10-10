@@ -3,6 +3,7 @@ import 'package:appvocado/components/my_textfield.dart';
 import 'package:appvocado/components/square_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -36,6 +37,23 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  Future<void> saveUserDataToFirestore(User user) async {
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('usuarios');
+
+    // Obtén información adicional sobre el usuario
+    String displayName = user.displayName ?? '';
+    String email = user.email ?? '';
+
+    // Guarda la información en Firestore
+    await users.doc(user.uid).set({
+      'uid': user.uid,
+      'displayName': displayName,
+      'email': email,
+      // Otros campos de usuario que desees almacenar
+    });
+  }
+
   void signUserUp() async {
     //mostrar circulo de carga
     showDialog(
@@ -54,11 +72,19 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
+      // Obtén el usuario a partir del userCredential
+      User? user = userCredential.user;
 
+      if (user != null) {
+        await saveUserDataToFirestore(user);
+      } else {
+        print('User is null. Cannot save to Firestore.');
+      }
       if (context.mounted) Navigator.pop(context);
       //displayMessage("Registro exitoso");
     } on FirebaseAuthException catch (e) {

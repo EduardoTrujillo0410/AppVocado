@@ -41,7 +41,7 @@ class _paginaPrincipalState extends State<paginaPrincipal> {
                 colors: [gradientStartColor, gradientEndColor],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                stops: [0.3, 0.7])),
+                stops: const [0.3, 0.7])),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(32.0),
@@ -54,7 +54,7 @@ class _paginaPrincipalState extends State<paginaPrincipal> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Hola ${user.email}',
+                          'Hola: \n${user.email}',
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -77,7 +77,7 @@ class _paginaPrincipalState extends State<paginaPrincipal> {
                   ],
                 ),
                 const SizedBox(
-                  height: 60,
+                  height: 40,
                 ),
                 // ignore: sized_box_for_whitespace
                 Container(

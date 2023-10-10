@@ -1,6 +1,7 @@
 import 'package:appvocado/components/my_button.dart';
 import 'package:appvocado/components/my_textfield.dart';
 import 'package:appvocado/components/square_tile.dart';
+import 'package:appvocado/pages/reset_password_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -133,14 +134,26 @@ class _LoginPageState extends State<LoginPage> {
                     ),
 
                     //olvidaste tu contraseña
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 25.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            'olvidaste tu contraseña?',
-                            style: TextStyle(color: Colors.white),
+                          GestureDetector(
+                            child: const Text(
+                              'Olvidaste tu contraseña?',
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: Colors.white,
+                                  fontSize: 15),
+                            ),
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const forgotPasswordPage();
+                                },
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -169,8 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: 10.0),
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'o continua con',
                               style: TextStyle(
