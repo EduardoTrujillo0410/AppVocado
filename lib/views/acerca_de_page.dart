@@ -8,7 +8,7 @@ class AcercaDePage extends StatelessWidget {
         title: Text('Página de acerca de'),
       ),
       body: Center(
-        child: Text('Contenido de la página de Detectar'),
+        child: Text('Contenido de la página de acerca de'),
       ),
     );
   }

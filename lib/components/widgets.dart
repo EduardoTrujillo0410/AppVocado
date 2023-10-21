@@ -57,6 +57,9 @@ class DetectarCard extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(
+            height: 10,
+          ),
         ],
       ),
     );
@@ -70,8 +73,8 @@ class HistorialCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 9.0,
-      color: Color.fromARGB(255, 231, 210, 140),
-      shadowColor: Color.fromARGB(255, 255, 115, 0),
+      color: const Color.fromARGB(255, 231, 210, 140),
+      shadowColor: const Color.fromARGB(255, 255, 115, 0),
       shape:
           ContinuousRectangleBorder(borderRadius: BorderRadius.circular(35.0)),
       child: Column(
@@ -117,6 +120,9 @@ class HistorialCard extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(
+            height: 10,
+          )
         ],
       ),
     );
@@ -177,6 +183,9 @@ class AcercaDeCard extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(
+            height: 10,
+          )
         ],
       ),
     );

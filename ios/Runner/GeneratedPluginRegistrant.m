@@ -24,12 +24,26 @@
 @import firebase_core;
 #endif
 
+#if __has_include(<firebase_ml_model_downloader/FirebaseModelDownloaderPlugin.h>)
+#import <firebase_ml_model_downloader/FirebaseModelDownloaderPlugin.h>
+#else
+@import firebase_ml_model_downloader;
+#endif
+
+#if __has_include(<image_picker_ios/FLTImagePickerPlugin.h>)
+#import <image_picker_ios/FLTImagePickerPlugin.h>
+#else
+@import image_picker_ios;
+#endif
+
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [FLTFirebaseFirestorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseFirestorePlugin"]];
   [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
+  [FirebaseModelDownloaderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FirebaseModelDownloaderPlugin"]];
+  [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
 }
 
 @end

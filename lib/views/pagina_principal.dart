@@ -45,57 +45,62 @@ class _paginaPrincipalState extends State<paginaPrincipal> {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(32.0),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Hola: \n${user.email}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(color: Colors.white),
-                        ),
-                        Text(
-                          'Bienvenido',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      onPressed: signUserOut,
-                      icon: const Icon(Icons.logout),
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                // ignore: sized_box_for_whitespace
-                Container(
-                  height: 500,
-                  child: Swiper(
-                    itemBuilder: (BuildContext context, int index) {
-                      return cards[index];
-                    },
-                    itemWidth: MediaQuery.of(context).size.width - 1 * 64,
-                    itemHeight: 500,
-                    itemCount: cards.length,
-                    layout: SwiperLayout.STACK,
-                    pagination: const SwiperPagination(
-                        builder: DotSwiperPaginationBuilder(
-                            color: Colors.grey, activeSize: 10, space: 10)),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'Hola: \n${user.displayName}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(color: Colors.white),
+                          ),
+                          Text(
+                            'Bienvenido',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        onPressed: signUserOut,
+                        icon: const Icon(Icons.logout),
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  // ignore: sized_box_for_whitespace
+                  Container(
+                    height: 500,
+                    child: Swiper(
+                      itemBuilder: (BuildContext context, int index) {
+                        return cards[index];
+                      },
+                      itemWidth: MediaQuery.of(context).size.width - 1 * 70,
+                      itemHeight: 700,
+                      itemCount: cards.length,
+                      layout: SwiperLayout.STACK,
+                      pagination: const SwiperPagination(
+                          builder: DotSwiperPaginationBuilder(
+                              color: Colors.grey,
+                              activeSize: 10,
+                              space: 10,
+                              size: 5)),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

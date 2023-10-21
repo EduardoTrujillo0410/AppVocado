@@ -2,14 +2,14 @@ import "package:appvocado/components/my_textfield.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 
-class forgotPasswordPage extends StatefulWidget {
-  const forgotPasswordPage({super.key});
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
 
   @override
-  State<forgotPasswordPage> createState() => _forgotPasswordPageState();
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _forgotPasswordPageState extends State<forgotPasswordPage> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final emailController = TextEditingController();
 
   @override

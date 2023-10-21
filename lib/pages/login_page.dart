@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     //olvidaste tu contraseña
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -144,13 +144,13 @@ class _LoginPageState extends State<LoginPage> {
                               'Olvidaste tu contraseña?',
                               style: TextStyle(
                                   decoration: TextDecoration.underline,
-                                  color: Colors.white,
+                                  color: Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 15),
                             ),
                             onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return const forgotPasswordPage();
+                                  return const ForgotPasswordPage();
                                 },
                               ),
                             ),

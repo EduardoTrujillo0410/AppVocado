@@ -16,35 +16,48 @@ class _ActualizarPageState extends State<ActualizarPage> {
 
   Future<void> actualizarDatos() async {
     try {
-      // Accede a Firebase Firestore y actualiza los datos según sea necesario
       String displayName = displayNameController.text;
       String email = emailController.text;
       String newPassword = newPasswordController.text;
 
-      // Obtén el ID del usuario actual
-      String? userId = FirebaseAuth.instance.currentUser?.uid;
+      // Obtén el usuario actualmente autenticado
+      User? user = FirebaseAuth.instance.currentUser;
 
-      if (userId != null) {
+      if (user != null) {
+        Map<String, dynamic> updateData = {};
+
+        if (displayName.isNotEmpty) {
+          updateData['displayName'] = displayName;
+          await user.updateDisplayName(displayName);
+        }
+        if (email.isNotEmpty) {
+          updateData['email'] = email;
+          await user.updateEmail(email);
+        }
+        if (newPassword.isNotEmpty) {
+          await user.updatePassword(newPassword);
+        }
+
         // Accede a la colección "usuarios" y actualiza el documento con el UID del usuario
+        String? userId = user.uid;
         await FirebaseFirestore.instance
             .collection('usuarios')
             .doc(userId)
-            .update({
-          'displayName': displayName,
-          'email': email,
-          'password': newPassword,
-        });
+            .update(updateData);
 
-        // Mostrar un mensaje de éxito o redireccionar a otra pantalla, según sea necesario
-        // ...
-        displayMessage('datos actualizados');
+        // Mostrar un mensaje de éxito
+        displayMessage('Datos actualizados');
+
+        // Limpia los TextFields después de guardar los datos
+        displayNameController.clear();
+        emailController.clear();
+        newPasswordController.clear();
       } else {
         print('El usuario no está autenticado.');
       }
     } catch (error) {
       // Maneja los errores, muestra un diálogo de error, etc.
       print('Error al actualizar datos: $error');
-      // ...
     }
   }
 
@@ -66,6 +79,16 @@ class _ActualizarPageState extends State<ActualizarPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text(
+              'Actualiza tus datos',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             MyTextField(
               controller: displayNameController,
               hintText: 'Username',
