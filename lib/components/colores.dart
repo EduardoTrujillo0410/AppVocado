@@ -7,3 +7,4 @@ Color contentTextColor = const Color(0xff868686);
 Color navigationColor = const Color.fromARGB(255, 255, 255, 255);
 Color gradientStartColor = const Color.fromARGB(255, 52, 164, 71);
 Color gradientEndColor = const Color.fromARGB(255, 203, 224, 192);
+Color pagesDashboard = const Color.fromARGB(255, 203, 224, 192);

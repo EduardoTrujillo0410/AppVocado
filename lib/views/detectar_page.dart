@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:appvocado/components/colores.dart';
 import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -57,7 +58,9 @@ class _DetectarPageState extends State<DetectarPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Página de Detectar'),
+        backgroundColor: gradientStartColor,
       ),
+      backgroundColor: pagesDashboard,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

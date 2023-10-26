@@ -1,16 +1,21 @@
+import 'package:appvocado/components/colores.dart';
 import 'package:flutter/material.dart';
 
 class AcercaDePage extends StatelessWidget {
+  const AcercaDePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Acerca de'),
+        backgroundColor: gradientStartColor,
       ),
+      backgroundColor: pagesDashboard,
       body: SafeArea(
         top: true,
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+          padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -26,9 +31,9 @@ class AcercaDePage extends StatelessWidget {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
                   child: Text(
-                    'About Us',
+                    'Juan Diego Ortiz Molina',
                     style: TextStyle(
                       fontFamily: 'Outfit',
                       color: Colors.blueAccent,
@@ -56,9 +61,9 @@ class AcercaDePage extends StatelessWidget {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
                   child: Text(
-                    'About Us',
+                    'Eduardo Trujillo Santos',
                     style: TextStyle(
                       fontFamily: 'Outfit',
                       color: Colors.blueAccent,

@@ -74,44 +74,53 @@ class _ActualizarPageState extends State<ActualizarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: gradientEndColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Actualiza tus datos',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 20,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [gradientStartColor, gradientEndColor],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: const [0.3, 0.7]),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Actualiza tus datos',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            MyTextField(
-              controller: displayNameController,
-              hintText: 'Username',
-              obscureText: false,
-            ),
-            const SizedBox(height: 20),
-            MyTextField(
-              controller: emailController,
-              hintText: 'Correo Electronico',
-              obscureText: false,
-            ),
-            const SizedBox(height: 20),
-            MyTextField(
-              controller: newPasswordController,
-              hintText: 'Contraseña',
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: actualizarDatos,
-              child: const Text('Actualizar'),
-            ),
-          ],
+              const SizedBox(
+                height: 20,
+              ),
+              MyTextField(
+                controller: displayNameController,
+                hintText: 'Username',
+                obscureText: false,
+              ),
+              const SizedBox(height: 20),
+              MyTextField(
+                controller: emailController,
+                hintText: 'Correo Electronico',
+                obscureText: false,
+              ),
+              const SizedBox(height: 20),
+              MyTextField(
+                controller: newPasswordController,
+                hintText: 'Contraseña',
+                obscureText: true,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: actualizarDatos,
+                child: const Text('Actualizar'),
+              ),
+            ],
+          ),
         ),
       ),
     );
