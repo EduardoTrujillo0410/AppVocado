@@ -1,6 +1,5 @@
 import 'package:appvocado/components/my_button.dart';
-import 'package:appvocado/components/my_textfield.dart';
-import 'package:appvocado/components/square_tile.dart';
+import 'package:appvocado/components/my_textfield2.dart';
 import 'package:appvocado/pages/reset_password_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -112,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
 
                     //correo electronico textfield
-                    MyTextField(
+                    MyTextField2(
                       controller: emailController,
                       hintText: 'Correo Electronico',
                       obscureText: false,
@@ -123,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
 
                     //contraseña textfield
-                    MyTextField(
+                    MyTextField2(
                       controller: passwordController,
                       hintText: 'Contraseña',
                       obscureText: true,
@@ -184,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
-                              'o continua con',
+                              '',
                               style: TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 16),
@@ -202,14 +201,6 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(
                       height: 25,
-                    ),
-
-                    //google inicio de sesion
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SquareTile(imagePath: 'lib/images/google.png')
-                      ],
                     ),
 
                     const SizedBox(

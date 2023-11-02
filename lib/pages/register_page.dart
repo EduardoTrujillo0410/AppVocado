@@ -1,6 +1,5 @@
 import 'package:appvocado/components/my_button.dart';
 import 'package:appvocado/components/my_textfield.dart';
-import 'package:appvocado/components/square_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,6 +17,34 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  bool isRegisterButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController.addListener(_validateFields);
+    passwordController.addListener(_validateFields);
+    confirmPasswordController.addListener(_validateFields);
+  }
+
+  void _validateFields() {
+    final email = emailController.text;
+    final password = passwordController.text;
+    final confirmPassword = confirmPasswordController.text;
+
+    bool isEmailValid = email.isNotEmpty && email == email.toLowerCase();
+    bool isPasswordValid = password.isNotEmpty &&
+        password.contains(RegExp(r'[A-Z]')) &&
+        password.contains(RegExp(r'[a-z]')) &&
+        password.contains(RegExp(r'[0-9]')) &&
+        password.contains(RegExp(r'[!@#$%^&*()]'));
+    bool arePasswordsMatching = password == confirmPassword;
+
+    setState(() {
+      isRegisterButtonEnabled =
+          isEmailValid && isPasswordValid && arePasswordsMatching;
+    });
+  }
 
   //mensaje de error
   void showErrorMessage(String message) {
@@ -54,48 +81,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  void signUserUp() async {
-    //mostrar circulo de carga
-    showDialog(
-      context: context,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-    //asegurar que las contraseñas coincidan
-    if (passwordController.text != confirmPasswordController.text) {
-      //pop loading circle
-      Navigator.pop(context);
-      //mostrar error al usuario
-      displayMessage("las contraseñas no coinciden");
-      return;
-    }
-
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      // Obtén el usuario a partir del userCredential
-      User? user = userCredential.user;
-
-      if (user != null) {
-        await saveUserDataToFirestore(user);
-      } else {
-        print('User is null. Cannot save to Firestore.');
-      }
-      if (context.mounted) Navigator.pop(context);
-      //displayMessage("Registro exitoso");
-    } on FirebaseAuthException catch (e) {
-      //pop loading circle
-      // ignore: use_build_context_synchronously
-      Navigator.pop(context);
-      //mostrar error al usuario
-      displayMessage(e.code);
-    }
-  }
-
   void displayMessage(String message) {
     showDialog(
       context: context,
@@ -103,6 +88,52 @@ class _RegisterPageState extends State<RegisterPage> {
         title: Text(message),
       ),
     );
+  }
+
+  void signUserUp() async {
+    if (isRegisterButtonEnabled) {
+      //mostrar circulo de carga
+      showDialog(
+        context: context,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+      //asegurar que las contraseñas coincidan
+      if (passwordController.text != confirmPasswordController.text) {
+        // Ocultar el círculo de carga
+        Navigator.of(context).pop();
+        // Mostrar error al usuario
+        showErrorMessage("Las contraseñas no coinciden");
+        return;
+      }
+      try {
+        UserCredential userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        // Obtén el usuario a partir del userCredential
+        User? user = userCredential.user;
+
+        if (user != null) {
+          Navigator.of(context).pop();
+          await saveUserDataToFirestore(user);
+        } else {
+          Navigator.of(context).pop();
+          print('User is null. Cannot save to Firestore.');
+        }
+        // ignore: use_build_context_synchronously
+        if (mounted) Navigator.of(context).pop();
+        //displayMessage("Registro exitoso");
+      } on FirebaseAuthException catch (e) {
+        //pop loading circle
+        // ignore: use_build_context_synchronously
+        if (mounted) Navigator.of(context).pop();
+        //mostrar error al usuario
+        showErrorMessage(e.code);
+      }
+    }
   }
 
   @override
@@ -183,14 +214,17 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
 
                     const SizedBox(
-                      height: 25,
+                      height: 15,
                     ),
 
                     //inicio de sesion boton
-                    MyButton(text: 'Registrarse', onTap: signUserUp),
+                    MyButton(
+                      text: 'Registrarse',
+                      onTap: isRegisterButtonEnabled ? signUserUp : null,
+                    ),
 
                     const SizedBox(
-                      height: 25,
+                      height: 15,
                     ),
 
                     //o continua con
@@ -207,7 +241,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
-                              'o continua con',
+                              '',
                               style: TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255)),
                             ),
@@ -227,16 +261,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
 
                     //google inicio de sesion
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SquareTile(imagePath: 'lib/images/google.png')
-                      ],
-                    ),
-
-                    const SizedBox(
-                      height: 25,
-                    ),
 
                     //no estas registrado? resgistrate ahora
                     Row(
