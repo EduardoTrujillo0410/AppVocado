@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final screens = [const paginaPrincipal(), ActualizarPage()];
+    final screens = [const paginaPrincipal(), const ActualizarPage()];
 
     return Scaffold(
       body: screens[selectedIndex],

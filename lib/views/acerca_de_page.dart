@@ -8,7 +8,7 @@ class AcercaDePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Acerca de'),
+        title: const Text('Acerca de'),
         backgroundColor: gradientStartColor,
       ),
       backgroundColor: pagesDashboard,

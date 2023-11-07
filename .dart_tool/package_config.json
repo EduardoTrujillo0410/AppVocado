@@ -146,6 +146,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "flutter_form_builder",
+      "rootUri": "file:///Users/juanortiz/.pub-cache/hosted/pub.dev/flutter_form_builder-9.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "flutter_lints",
       "rootUri": "file:///Users/juanortiz/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3",
       "packageUri": "lib/",
@@ -246,6 +252,12 @@
       "rootUri": "file:///Users/juanortiz/.pub-cache/hosted/pub.dev/image_picker_windows-0.2.1+1",
       "packageUri": "lib/",
       "languageVersion": "2.19"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///Users/juanortiz/.pub-cache/hosted/pub.dev/intl-0.18.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "js",
@@ -416,7 +428,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-11-02T04:17:47.977969Z",
+  "generated": "2023-11-02T16:55:22.712328Z",
   "generator": "pub",
   "generatorVersion": "3.1.0"
 }

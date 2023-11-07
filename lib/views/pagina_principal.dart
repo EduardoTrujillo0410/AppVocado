@@ -33,6 +33,13 @@ class _paginaPrincipalState extends State<paginaPrincipal> {
 
   @override
   Widget build(BuildContext context) {
+    String greetingText;
+    if (user.displayName != null && user.displayName!.isNotEmpty) {
+      greetingText = 'Hola:\n${user.displayName}';
+    } else {
+      // Usar el nombre de usuario del correo electrónico si no hay un display name
+      greetingText = 'Hola:\n${user.email!.split('@').first}';
+    }
     return Scaffold(
       backgroundColor: gradientEndColor,
       body: Container(
@@ -55,7 +62,7 @@ class _paginaPrincipalState extends State<paginaPrincipal> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Hola: \n${user.displayName}',
+                            greetingText, // Usar la variable greetingText
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall

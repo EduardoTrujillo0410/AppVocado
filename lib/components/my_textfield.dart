@@ -4,57 +4,37 @@ class MyTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final bool obscureText;
+  final Icon iconos;
+  final String? Function(String?)? validador2;
 
-  MyTextField({
+  const MyTextField({
     Key? key,
     required this.controller,
     required this.hintText,
     required this.obscureText,
+    required this.iconos,
+    this.validador2,
   }) : super(key: key);
 
   @override
-  _MyTextFieldState createState() => _MyTextFieldState();
+  MyTextFieldState createState() => MyTextFieldState();
 }
 
-class _MyTextFieldState extends State<MyTextField> {
+class MyTextFieldState extends State<MyTextField> {
   String errorText = '';
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
+      child: TextFormField(
         controller: widget.controller,
         obscureText: widget.obscureText,
-        onChanged: (text) {
-          if (widget.hintText.toLowerCase() == "email") {
-            // Validación para el correo electrónico en minúsculas
-            if (text != text.toLowerCase()) {
-              // Convierte el texto a minúsculas si no lo está
-              widget.controller.text = text.toLowerCase();
-            }
-          } else if (widget.hintText.toLowerCase() == "contraseña") {
-            // Validación para la contraseña (debe contener al menos una mayúscula, una minúscula, un número y un carácter especial)
-            bool hasUppercase = text.contains(RegExp(r'[A-Z]'));
-            bool hasLowercase = text.contains(RegExp(r'[a-z]'));
-            bool hasDigit = text.contains(RegExp(r'[0-9]'));
-            bool hasSpecialChar = text.contains(RegExp(r'[!@#$%^&*()]'));
-
-            if (!(hasUppercase && hasLowercase && hasDigit && hasSpecialChar)) {
-              // Actualiza el errorText para mostrar el mensaje de error
-              setState(() {
-                errorText =
-                    'Debe tener al menos mayúscula, minúscula, \n número y un carácter especial';
-              });
-            } else {
-              setState(() {
-                errorText = '';
-              });
-            }
-          }
-        },
+        validator: widget.validador2,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+          prefixIcon: widget.iconos,
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
           ),
@@ -65,8 +45,17 @@ class _MyTextFieldState extends State<MyTextField> {
           filled: true,
           hintText: widget.hintText,
           hintStyle: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-          // Muestra el mensaje de error
-          errorText: errorText,
+          errorStyle: TextStyle(
+              color: Colors.white,
+              shadows: [
+                Shadow(
+                    offset: const Offset(2.0, 2.0), //position of shadow
+                    blurRadius: 1.0, //blur intensity of shadow
+                    color: Colors.black.withOpacity(0.99))
+              ],
+              decoration: TextDecoration.underline,
+              decorationColor: Colors.red,
+              decorationStyle: TextDecorationStyle.solid),
         ),
       ),
     );

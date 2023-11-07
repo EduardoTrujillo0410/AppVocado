@@ -1,3 +1,4 @@
+import "package:appvocado/components/colores.dart";
 import "package:appvocado/components/my_textfield.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
@@ -49,9 +50,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: gradientStartColor,
         elevation: 5,
+        title: const Text('Reestablecer Contraseña'),
       ),
+      backgroundColor: gradientEndColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -72,13 +75,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             controller: emailController,
             hintText: 'Correo Electronico',
             obscureText: false,
+            iconos: const Icon(Icons.email),
           ),
           const SizedBox(
             height: 10,
           ),
-          MaterialButton(
+          ElevatedButton(
             onPressed: passwordReset,
-            color: Colors.deepPurple[200],
             child: const Text('Reestablecer Contraseña'),
           )
         ],

@@ -31,8 +31,10 @@ class DetectarCard extends StatelessWidget {
           const SizedBox(height: 10.0),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => DetectarPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DetectarPage()));
             },
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -94,8 +96,10 @@ class HistorialCard extends StatelessWidget {
           const SizedBox(height: 10.0),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HistorialPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HistorialPage()));
             },
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -136,7 +140,7 @@ class AcercaDeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 9.0,
-      color: Color.fromARGB(255, 231, 210, 140),
+      color: const Color.fromARGB(255, 231, 210, 140),
       shadowColor: const Color.fromARGB(255, 232, 56, 3),
       shape:
           ContinuousRectangleBorder(borderRadius: BorderRadius.circular(35.0)),
@@ -157,8 +161,10 @@ class AcercaDeCard extends StatelessWidget {
           const SizedBox(height: 10.0),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AcercaDePage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AcercaDePage()));
             },
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(

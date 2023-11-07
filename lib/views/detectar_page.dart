@@ -8,6 +8,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
 class DetectarPage extends StatefulWidget {
+  const DetectarPage({super.key});
+
   @override
   State<DetectarPage> createState() => _DetectarPageState();
 }
@@ -15,7 +17,7 @@ class DetectarPage extends StatefulWidget {
 class _DetectarPageState extends State<DetectarPage> {
   late ImagePicker imagePicker;
   File? _image;
-  String result = 'Results will be shown here';
+  String result = 'Los resultados se mostraran aquí';
 
   late ImageLabeler imageLabeler;
 
@@ -72,6 +74,7 @@ class _DetectarPageState extends State<DetectarPage> {
     result = '';
     for (ImageLabel label in labels) {
       final String text = label.label;
+      // ignore: unused_local_variable
       final int index = label.index;
       final double confidence = label.confidence;
       result += text + "    " + confidence.toStringAsFixed(2) + "\n";
@@ -100,63 +103,56 @@ class _DetectarPageState extends State<DetectarPage> {
         title: const Text('Pagina de Detectar'),
         backgroundColor: gradientStartColor,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(color: gradientEndColor),
+      body: Container(
+        decoration: BoxDecoration(color: gradientEndColor),
+        child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                width: 100,
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 100),
-                child: Stack(children: <Widget>[
-                  Stack(children: <Widget>[
-                    Center(
-                      child: Image.asset(
-                        'lib/images/frame.png',
-                        height: 510,
-                        width: 500,
-                      ),
-                    ),
-                  ]),
-                  Center(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          shadowColor: Colors.transparent),
-                      onPressed: _imageFromGallery,
-                      onLongPress: _imageFromCamera,
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 8),
-                        child: _image != null
-                            ? Image.file(
-                                _image!,
-                                width: 335,
-                                height: 495,
-                                fit: BoxFit.fill,
-                              )
-                            : Container(
-                                width: 340,
-                                height: 330,
-                                child: const Icon(
-                                  Icons.camera_alt,
-                                  color: Colors.black,
-                                  size: 100,
-                                ),
-                              ),
-                      ),
-                    ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  padding: const EdgeInsets.all(0),
+                ),
+                onPressed: _imageFromGallery,
+                onLongPress: _imageFromCamera,
+                child: Container(
+                  width: 335,
+                  height: 495,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromARGB(148, 255, 255,
+                        255), // Cambia el color de fondo según tus preferencias
+                    border: Border.all(
+                      color: Colors.green,
+                    ), // Agrega un borde
                   ),
-                ]),
+                  child: Center(
+                    child: _image != null
+                        ? Image.file(
+                            _image!,
+                            width: 335,
+                            height: 495,
+                            fit: BoxFit
+                                .cover, // Usa "cover" para rellenar el contenedor
+                          )
+                        : const Icon(
+                            Icons.camera_alt,
+                            color: Colors.black,
+                            size: 100,
+                          ),
+                  ),
+                ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 20),
-                child: Text(
-                  result,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.bold),
+              const SizedBox(height: 20), // Espacio entre el botón y el texto
+              Text(
+                result,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],

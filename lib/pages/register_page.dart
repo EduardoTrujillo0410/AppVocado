@@ -1,5 +1,5 @@
 import 'package:appvocado/components/my_button.dart';
-import 'package:appvocado/components/my_textfield.dart';
+import 'package:appvocado/components/my_textfield2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,34 +17,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  bool isRegisterButtonEnabled = false;
-
-  @override
-  void initState() {
-    super.initState();
-    emailController.addListener(_validateFields);
-    passwordController.addListener(_validateFields);
-    confirmPasswordController.addListener(_validateFields);
-  }
-
-  void _validateFields() {
-    final email = emailController.text;
-    final password = passwordController.text;
-    final confirmPassword = confirmPasswordController.text;
-
-    bool isEmailValid = email.isNotEmpty && email == email.toLowerCase();
-    bool isPasswordValid = password.isNotEmpty &&
-        password.contains(RegExp(r'[A-Z]')) &&
-        password.contains(RegExp(r'[a-z]')) &&
-        password.contains(RegExp(r'[0-9]')) &&
-        password.contains(RegExp(r'[!@#$%^&*()]'));
-    bool arePasswordsMatching = password == confirmPassword;
-
-    setState(() {
-      isRegisterButtonEnabled =
-          isEmailValid && isPasswordValid && arePasswordsMatching;
-    });
-  }
+  // Crear un GlobalKey para el formulario
+  final _formKey = GlobalKey<FormState>();
 
   //mensaje de error
   void showErrorMessage(String message) {
@@ -91,48 +65,49 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void signUserUp() async {
-    if (isRegisterButtonEnabled) {
-      //mostrar circulo de carga
-      showDialog(
-        context: context,
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(),
-        ),
+    //mostrar circulo de carga
+    showDialog(
+      context: context,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    //asegurar que las contraseñas coincidan
+    if (passwordController.text != confirmPasswordController.text) {
+      // Ocultar el círculo de carga
+      Navigator.of(context).pop();
+      // Mostrar error al usuario
+      showErrorMessage("Las contraseñas no coinciden");
+      return;
+    }
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
       );
-      //asegurar que las contraseñas coincidan
-      if (passwordController.text != confirmPasswordController.text) {
-        // Ocultar el círculo de carga
-        Navigator.of(context).pop();
-        // Mostrar error al usuario
-        showErrorMessage("Las contraseñas no coinciden");
-        return;
-      }
-      try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-        // Obtén el usuario a partir del userCredential
-        User? user = userCredential.user;
+      // Obtén el usuario a partir del userCredential
+      User? user = userCredential.user;
 
-        if (user != null) {
-          Navigator.of(context).pop();
-          await saveUserDataToFirestore(user);
-        } else {
-          Navigator.of(context).pop();
-          print('User is null. Cannot save to Firestore.');
-        }
+      if (user != null) {
         // ignore: use_build_context_synchronously
-        if (mounted) Navigator.of(context).pop();
-        //displayMessage("Registro exitoso");
-      } on FirebaseAuthException catch (e) {
-        //pop loading circle
+        Navigator.of(context).pop();
+        await saveUserDataToFirestore(user);
+      } else {
         // ignore: use_build_context_synchronously
-        if (mounted) Navigator.of(context).pop();
-        //mostrar error al usuario
-        showErrorMessage(e.code);
+        Navigator.of(context).pop();
+        showErrorMessage(
+            'El Usuario es nulo. No se puede guardar en Firestore.');
       }
+      // ignore: use_build_context_synchronously
+      if (mounted) Navigator.of(context).pop();
+      //displayMessage("Registro exitoso");
+    } on FirebaseAuthException catch (e) {
+      //pop loading circle
+      // ignore: use_build_context_synchronously
+      if (mounted) Navigator.of(context).pop();
+      //mostrar error al usuario
+      showErrorMessage(e.code);
     }
   }
 
@@ -140,153 +115,251 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 174, 206, 175),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            //imagen de fondo
-            image: AssetImage(
-              'lib/images/fondo2.jpg',
+      body: Form(
+        key: _formKey,
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              //imagen de fondo
+              image: AssetImage(
+                'lib/images/fondo2.jpg',
+              ),
+              fit: BoxFit.cover,
             ),
-            fit: BoxFit.cover,
           ),
-        ),
-        child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    //logo
-                    const Icon(
-                      Icons.account_circle_outlined,
-                      size: 100,
-                      color: Colors.white,
-                    ),
-
-                    const SizedBox(
-                      height: 25,
-                    ),
-
-                    //Bienvenido te extrañabamos
-                    const Text(
-                      'Creemos una cuenta para tí!',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+          child: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 25,
                       ),
-                    ),
-
-                    const SizedBox(
-                      height: 25,
-                    ),
-
-                    //correo electronico textfield
-                    MyTextField(
-                      controller: emailController,
-                      hintText: 'Correo Electronico',
-                      obscureText: false,
-                    ),
-
-                    const SizedBox(
-                      height: 10,
-                    ),
-
-                    //contraseña textfield
-                    MyTextField(
-                      controller: passwordController,
-                      hintText: 'Contraseña',
-                      obscureText: true,
-                    ),
-
-                    const SizedBox(
-                      height: 10,
-                    ),
-
-                    //confirmar contraseña textfield
-                    MyTextField(
-                      controller: confirmPasswordController,
-                      hintText: 'Confirmar Contraseña',
-                      obscureText: true,
-                    ),
-
-                    const SizedBox(
-                      height: 15,
-                    ),
-
-                    //inicio de sesion boton
-                    MyButton(
-                      text: 'Registrarse',
-                      onTap: isRegisterButtonEnabled ? signUserUp : null,
-                    ),
-
-                    const SizedBox(
-                      height: 15,
-                    ),
-
-                    //o continua con
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Text(
-                              '',
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255)),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                            ),
+                      //logo
+                      Icon(
+                        Icons.account_circle_outlined,
+                        size: 100,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(2.0, 2.0), //position of shadow
+                            blurRadius: 1.0, //blur intensity of shadow
+                            color: Colors.black.withOpacity(
+                                0.99), //color of shadow with opacity
                           ),
                         ],
                       ),
-                    ),
 
-                    const SizedBox(
-                      height: 25,
-                    ),
+                      const SizedBox(
+                        height: 25,
+                      ),
 
-                    //google inicio de sesion
-
-                    //no estas registrado? resgistrate ahora
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'ya tienes una cuenta?',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255)),
+                      //Bienvenido te extrañabamos
+                      Text(
+                        'Creemos una cuenta para tí!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          shadows: [
+                            Shadow(
+                              offset:
+                                  const Offset(2.0, 2.0), //position of shadow
+                              blurRadius: 3.0, //blur intensity of shadow
+                              color: Colors.black.withOpacity(
+                                  0.99), //color of shadow with opacity
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          width: 4,
+                      ),
+
+                      const SizedBox(
+                        height: 25,
+                      ),
+
+                      //correo electronico textfield
+                      MyTextField2(
+                        controller: emailController,
+                        hintText: 'Correo Electronico',
+                        obscureText: false,
+                        iconos2: const Icon(Icons.email),
+                        validador: (value) {
+                          if (value!.isEmpty) {
+                            return 'Este campo es obligatorio';
+                          }
+                          if (value != value.toLowerCase()) {
+                            return 'Deben ser todas minusculas';
+                          }
+                          if (value.length > 30) {
+                            return 'El correo tiene que ser menos de 30 caracteres';
+                          }
+                          return null;
+                        },
+                      ),
+
+                      const SizedBox(
+                        height: 10,
+                      ),
+
+                      //contraseña textfield
+                      MyTextField2(
+                        controller: passwordController,
+                        hintText: 'Contraseña',
+                        obscureText: true,
+                        iconos2: const Icon(Icons.password),
+                        validador: (value) {
+                          if (value!.isEmpty) {
+                            return 'La contraseña no puede estar vacía';
+                          }
+
+                          if (value.length < 8 || value.length > 16) {
+                            return 'La contraseña debe tener entre 8 y 16 caracteres';
+                          }
+
+                          // Verifica si la contraseña contiene al menos una minúscula, una mayúscula,
+                          // un carácter especial y un número.
+                          if (!RegExp(
+                                  r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%^&*()_+.])([A-Za-z0-9!@#\$%^&*()_+.]+)$')
+                              .hasMatch(value)) {
+                            return 'La contraseña debe contener al menos una minúscula, una mayúscula, un número y un carácter especial';
+                          }
+
+                          return null; // No hay errores de validación
+                        },
+                      ),
+
+                      const SizedBox(
+                        height: 10,
+                      ),
+
+                      //confirmar contraseña textfield
+                      MyTextField2(
+                        controller: confirmPasswordController,
+                        hintText: 'Confirmar Contraseña',
+                        obscureText: true,
+                        iconos2: const Icon(Icons.password),
+                        validador: (value) {
+                          if (value!.isEmpty) {
+                            return 'La contraseña no puede estar vacía';
+                          }
+
+                          if (value.length < 8 || value.length > 16) {
+                            return 'La contraseña debe tener entre 8 y 16 caracteres';
+                          }
+
+                          // Verifica si la contraseña contiene al menos una minúscula, una mayúscula,
+                          // un carácter especial y un número.
+                          if (!RegExp(
+                                  r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%^&*()_+])[A-Za-z0-9!@#\$%^&*()_+]+$')
+                              .hasMatch(value)) {
+                            return 'La contraseña debe contener al menos una minúscula, una mayúscula, un número y un carácter especial';
+                          }
+
+                          return null; // No hay errores de validación
+                        },
+                      ),
+
+                      const SizedBox(
+                        height: 15,
+                      ),
+
+                      //inicio de sesion boton
+                      MyButton(
+                          text: 'Registrarse',
+                          onTap: () {
+                            // Validar el formulario antes de registrar al usuario
+                            if (_formKey.currentState!.validate()) {
+                              signUserUp();
+                            }
+                          }),
+
+                      const SizedBox(
+                        height: 15,
+                      ),
+
+                      //o continua con
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 25.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                thickness: 0.5,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text(
+                                '',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255)),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                thickness: 0.5,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
+                          ],
                         ),
-                        GestureDetector(
-                          onTap: widget.onTap,
-                          child: const Text(
-                            'Inicia Sesion ahora',
+                      ),
+
+                      const SizedBox(
+                        height: 25,
+                      ),
+
+                      //google inicio de sesion
+
+                      //no estas registrado? resgistrate ahora
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'ya tienes una cuenta?',
                             style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 15,
+                              shadows: [
+                                Shadow(
+                                  offset: const Offset(
+                                      2.0, 2.0), //position of shadow
+                                  blurRadius: 1.0, //blur intensity of shadow
+                                  color: Colors.black.withOpacity(
+                                      0.99), //color of shadow with opacity
+                                ),
+                              ],
                             ),
                           ),
-                        )
-                      ],
-                    )
-                  ]),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          GestureDetector(
+                            onTap: widget.onTap,
+                            child: Text(
+                              'Inicia Sesión',
+                              style: TextStyle(
+                                color: Colors.yellow,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                                shadows: [
+                                  Shadow(
+                                    offset: const Offset(
+                                        2.0, 2.0), //position of shadow
+                                    blurRadius: 1.0, //blur intensity of shadow
+                                    color: Colors.black.withOpacity(
+                                        0.99), //color of shadow with opacity
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ]),
+              ),
             ),
           ),
         ),
