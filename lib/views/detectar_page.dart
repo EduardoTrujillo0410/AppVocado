@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:appvocado/components/colores.dart';
+import 'package:appvocado/views/resultado_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
@@ -18,6 +19,7 @@ class _DetectarPageState extends State<DetectarPage> {
   late ImagePicker imagePicker;
   File? _image;
   String result = 'Los resultados se mostraran aquí';
+  bool showResultButton = false;
 
   late ImageLabeler imageLabeler;
 
@@ -77,10 +79,11 @@ class _DetectarPageState extends State<DetectarPage> {
       // ignore: unused_local_variable
       final int index = label.index;
       final double confidence = label.confidence;
-      result += text + "    " + confidence.toStringAsFixed(2) + "\n";
+      result += text;
     }
     setState(() {
       result;
+      showResultButton = true;
     });
   }
 
@@ -112,7 +115,7 @@ class _DetectarPageState extends State<DetectarPage> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
+                  backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
                   padding: const EdgeInsets.all(0),
                 ),
@@ -155,6 +158,20 @@ class _DetectarPageState extends State<DetectarPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              AnimatedOpacity(
+                opacity: showResultButton ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 500),
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResultPage(result: result),
+                        ),
+                      );
+                    },
+                    child: const Text("mas información")),
+              )
             ],
           ),
         ),

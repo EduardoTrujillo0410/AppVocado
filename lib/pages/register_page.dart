@@ -38,6 +38,26 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  Future<void> createHistorialDocument(String uid) async {
+    try {
+      CollectionReference historialCollection =
+          FirebaseFirestore.instance.collection('Historial');
+
+      // Crear un nuevo documento con el UID del usuario como identificador
+      await historialCollection.doc(uid).set({
+        'usuarioUid': uid,
+        // Puedes agregar más campos según tus necesidades
+        // Puedes inicializar con un array vacío u otros datos iniciales
+      });
+
+      print(
+          'Documento en historial creado exitosamente para el usuario con UID: $uid');
+    } catch (error) {
+      print('Error al crear el documento en historial: $error');
+      // Puedes manejar el error según tus necesidades
+    }
+  }
+
   Future<void> saveUserDataToFirestore(User user) async {
     CollectionReference users =
         FirebaseFirestore.instance.collection('usuarios');
@@ -93,6 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
         // ignore: use_build_context_synchronously
         Navigator.of(context).pop();
         await saveUserDataToFirestore(user);
+        await createHistorialDocument(user.uid);
       } else {
         // ignore: use_build_context_synchronously
         Navigator.of(context).pop();
