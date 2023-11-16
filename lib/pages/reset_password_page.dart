@@ -52,7 +52,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       appBar: AppBar(
         backgroundColor: gradientStartColor,
         elevation: 5,
-        title: const Text('Reestablecer Contraseña'),
+        title: const Text('Restablecer Contraseña'),
       ),
       backgroundColor: gradientEndColor,
       body: Column(
@@ -61,7 +61,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.0),
             child: Text(
-              'digita tu Email y te enviaremos un link para reestablecer tu contraseña',
+              'Digita tu Email y te enviaremos un link para restablecer tu contraseña',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
@@ -82,7 +82,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
           ElevatedButton(
             onPressed: passwordReset,
-            child: const Text('Reestablecer Contraseña'),
+            child: const Text('Restablecer Contraseña'),
           )
         ],
       ),

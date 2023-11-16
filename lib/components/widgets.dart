@@ -96,10 +96,8 @@ class HistorialCard extends StatelessWidget {
           const SizedBox(height: 10.0),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const HistorialPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HistorialPage()));
             },
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(

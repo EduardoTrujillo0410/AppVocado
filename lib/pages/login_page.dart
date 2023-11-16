@@ -10,6 +10,8 @@ class LoginPage extends StatefulWidget {
 
   @override
   State<LoginPage> createState() => _LoginPageState();
+
+  static signUserIn(String s, String t) {}
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -184,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             GestureDetector(
                               child: Text(
-                                'Olvidaste tu contraseña?',
+                                'Olvidaste tu Contraseña?',
                                 style: TextStyle(
                                   decoration: TextDecoration.underline,
                                   color: Colors.white,
@@ -291,7 +293,7 @@ class _LoginPageState extends State<LoginPage> {
                           GestureDetector(
                             onTap: widget.onTap,
                             child: Text(
-                              'Registrate ahora',
+                              'Regístrate Ahora',
                               style: TextStyle(
                                 color: Colors.yellow,
                                 fontWeight: FontWeight.bold,

@@ -22,6 +22,7 @@ class _DetectarPageState extends State<DetectarPage> {
   bool showResultButton = false;
 
   late ImageLabeler imageLabeler;
+  late ImageLabeler imageLabeler2;
 
   @override
   void initState() {
@@ -40,6 +41,13 @@ class _DetectarPageState extends State<DetectarPage> {
       modelPath: modelPath,
     );
     imageLabeler = ImageLabeler(options: options);
+
+    final modelPath2 = await getModelPath('assets/ml/model_metadata.tflite');
+    final options2 = LocalLabelerOptions(
+      confidenceThreshold: 0.5,
+      modelPath: modelPath2,
+    );
+    imageLabeler2 = ImageLabeler(options: options2);
   }
 
   @override
@@ -71,19 +79,37 @@ class _DetectarPageState extends State<DetectarPage> {
 
   doImageLabeling() async {
     InputImage inputImage = InputImage.fromFile(_image!);
-    final List<ImageLabel> labels = await imageLabeler.processImage(inputImage);
+
+    // Procesar la imagen con el primer modelo
+    final List<ImageLabel> labels1 =
+        await imageLabeler2.processImage(inputImage);
 
     result = '';
-    for (ImageLabel label in labels) {
-      final String text = label.label;
-      // ignore: unused_local_variable
-      final int index = label.index;
-      final double confidence = label.confidence;
-      result += text;
+
+    // Verificar si el primer modelo detecta "aguacate"
+    bool isAguacateDetected =
+        labels1.any((label) => label.label == '0 Aguacate');
+
+    if (isAguacateDetected) {
+      // Si el primer modelo detecta "aguacate", procesar la imagen con el segundo modelo
+      final List<ImageLabel> labels2 =
+          await imageLabeler.processImage(inputImage);
+
+      for (ImageLabel label in labels2) {
+        final String text = label.label;
+        // ignore: unused_local_variable
+        final int index = label.index;
+        final double confidence = label.confidence;
+        result += text;
+      }
+    } else {
+      // Si el primer modelo no detecta "aguacate", mostrar un mensaje en el resultado
+      result = 'No es un Aguacate';
     }
+
     setState(() {
       result;
-      showResultButton = true;
+      showResultButton = isAguacateDetected;
     });
   }
 
@@ -103,7 +129,7 @@ class _DetectarPageState extends State<DetectarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pagina de Detectar'),
+        //title: const Text('Deteccion'),
         backgroundColor: gradientStartColor,
       ),
       body: Container(
@@ -170,7 +196,7 @@ class _DetectarPageState extends State<DetectarPage> {
                         ),
                       );
                     },
-                    child: const Text("mas información")),
+                    child: const Text("Mas Información")),
               )
             ],
           ),

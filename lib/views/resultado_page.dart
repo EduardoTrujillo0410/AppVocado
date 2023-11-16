@@ -13,10 +13,8 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
-  // Función para guardar en el historial
   Future<void> guardarEnHistorial() async {
     try {
-      // Obtener el usuario autenticado
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
@@ -26,12 +24,39 @@ class _ResultPageState extends State<ResultPage> {
             FirebaseFirestore.instance.collection('Historial');
         DocumentReference userDocument = historialCollection.doc(userId);
 
+        // Obtener referencia a la subcolección 'Historiales' dentro del documento del usuario
+        CollectionReference historialesSubcollection =
+            userDocument.collection('Historiales');
+
         DateTime now = DateTime.now();
 
-        await userDocument.set({
+        String enfermedadNombre = widget.result;
+        String enfermedadDescripcion = "";
+        String enfermedadCausa = "";
+        String enfermedadTratamiento = "";
+
+        QuerySnapshot enfermedadSnapshot = await FirebaseFirestore.instance
+            .collection('Enfermedad')
+            .where('Nombre', isEqualTo: widget.result)
+            .get();
+
+        if (enfermedadSnapshot.docs.isNotEmpty) {
+          DocumentSnapshot enfermedadDocument = enfermedadSnapshot.docs.first;
+          enfermedadDescripcion = enfermedadDocument['Descripción'] ?? '';
+          enfermedadCausa = enfermedadDocument['Causa'] ?? '';
+          enfermedadTratamiento = enfermedadDocument['Tratamiento'] ?? '';
+        }
+
+        // Guardar la información del historial dentro de la subcolección 'Historiales'
+        await historialesSubcollection.add({
           'Fecha': now,
-          'Enfermedad': widget.result,
-          // Agrega otros campos según sea necesario
+          'Enfermedad': {
+            'Nombre': enfermedadNombre,
+            'Descripción': enfermedadDescripcion,
+            'Causa': enfermedadCausa,
+            'Tratamiento': enfermedadTratamiento,
+          },
+          // Otros campos según sea necesario
         });
 
         print('Resultado guardado en el historial.');
@@ -77,7 +102,7 @@ class _ResultPageState extends State<ResultPage> {
                     if (snapshot.hasData) {
                       return SizedBox(
                         // Ajusta este valor según tus necesidades
-                        height: 680,
+                        height: 650,
                         child: ListView.builder(
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -118,14 +143,14 @@ class _ResultPageState extends State<ResultPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Descripción: $descripcion',
+                                    'Descripción:\n $descripcion',
                                     textAlign: TextAlign.justify,
                                   ),
                                   Text(
-                                    'Causa: $causa',
+                                    'Causa:\n $causa',
                                     textAlign: TextAlign.justify,
                                   ),
-                                  Text('Tratamiento: $tratamiento',
+                                  Text('Tratamiento:\n $tratamiento',
                                       textAlign: TextAlign.justify)
                                 ],
                               ),
@@ -140,6 +165,15 @@ class _ResultPageState extends State<ResultPage> {
                     }
                   },
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    guardarEnHistorial();
+                  },
+                  child: Text('Guardar en Historial'),
+                )
               ],
             ),
           ),
